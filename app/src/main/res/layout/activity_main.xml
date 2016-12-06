@@ -10,8 +10,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="laboratorio2016.github.com.ensilladovaccatittarelli.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:layout_marginLeft="30dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="300dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/bajomontura" />
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/bozal" />
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/cabezada" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:id="@+id/caballoView"
+            android:src="@drawable/caballo_solo_1"
+            />
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_marginTop="40dp"
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:src="@drawable/sudadera" />
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/matra" />
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/montura" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
