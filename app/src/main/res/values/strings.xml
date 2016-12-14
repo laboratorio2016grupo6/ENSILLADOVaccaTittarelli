@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">ENSILLADOVaccaTittarelli</string>
+    <string name="setting_title">Configuración</string>
+
+    <string name="pref_voice_title">Voz</string>
+    <string name="pref_list_f">Femenina</string>
+    <string name="pref_list_m">Masculina</string>
+    <string name="pref_list_f_v">F</string>
+    <string name="pref_list_m_v">M</string>
+    <string name="pref_title_voice_f">@string/pref_list_f</string>
+    <string name="pref_title_voice_m">@string/pref_list_m</string>
+
+    <string name="pref_level_title">Nivel</string>
+    <string name="pref_list_ini">Inicial</string>
+    <string name="pref_list_me">Medio</string>
+    <string name="pref_list_avan">Avanzado</string>
+    <string name="pref_list_exp">Experto</string>
+    <string name="pref_list_ini_v">1</string>
+    <string name="pref_list_me_v">2</string>
+    <string name="pref_list_avan_v">3</string>
+    <string name="pref_list_exp_v">4</string>
+
+    <string name="pref_title_level_i">@string/pref_list_ini</string>
+    <string name="pref_title_level_m">@string/pref_list_me</string>
+    <string name="pref_title_level_a">@string/pref_list_avan</string>
+    <string name="pref_title_level_e">@string/pref_list_exp</string>
+
+    <string name="pref_initial_state_horse">Estado inicial del caballo</string>
+    <string name="pref_without_elements">Sin elementos</string>
+
+    <string name="civ_shadow_radius">13</string>
+
+    <string name="titleWinAlert">Felicitaciones! Has completado el nivel</string>
+    <string name="negativeButtonWinAlert">Salir</string>
+    <string name="neutralButtonWinAlert">Jugar de nuevo</string>
+    <string name="positiveButtonWinAlert">Jugar siguiente nivel</string>
 </resources>

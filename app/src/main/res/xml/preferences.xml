@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/setting_title"
+        android:key="pref_key_settings">
+
+        <ListPreference
+            android:title="@string/pref_voice_title"
+            android:key="pref_key_voice_setting"
+            android:defaultValue="@string/pref_list_f_v"
+            android:summary="%s"
+            android:entries="@array/voiceArray"
+            android:entryValues="@array/voiceValues"
+            />
+
+        <ListPreference
+            android:title="@string/pref_level_title"
+            android:key="pref_key_level_setting"
+            android:defaultValue="@string/pref_list_ini_v"
+            android:summary="%s"
+            android:entries="@array/levelArray"
+            android:entryValues="@array/levelValues"
+            />
+
+        <CheckBoxPreference
+            android:key="pref_state_horse"
+            android:title="@string/pref_initial_state_horse"
+            android:summary="@string/pref_without_elements"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

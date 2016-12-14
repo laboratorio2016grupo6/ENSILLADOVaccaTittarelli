@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="voiceArray">
+        <item>@string/pref_list_f</item>
+        <item>@string/pref_list_m</item>
+    </string-array>
+
+    <string-array
+        name="voiceValues">
+        <item>@string/pref_list_f_v</item>
+        <item>@string/pref_list_m_v</item>
+    </string-array>
+
+    <string-array
+        name="levelArray">
+        <item>@string/pref_list_ini</item>
+        <item>@string/pref_list_me</item>
+        <item>@string/pref_list_avan</item>
+        <item>@string/pref_list_exp</item>
+    </string-array>
+
+    <string-array
+        name="levelValues">
+        <item>@string/pref_list_ini_v</item>
+        <item>@string/pref_list_me_v</item>
+        <item>@string/pref_list_avan_v</item>
+        <item>@string/pref_list_exp_v</item>
+    </string-array>
+
+</resources>

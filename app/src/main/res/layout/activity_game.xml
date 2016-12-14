@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="laboratorio2016.github.com.ensilladovaccatittarelli.GameActivity"
+    android:background="@drawable/caballo_solo_1"
+    android:id="@+id/background_horse">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgtopright"
+        android:layout_gravity="top|right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgcenterright"
+        android:layout_gravity="center|right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgbottomright"
+        android:layout_gravity="bottom|right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/horseView"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgtopleft"
+        android:layout_gravity="top|left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgcenterleft"
+        android:layout_gravity="center|left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/imgbottomleft"
+        android:layout_gravity="bottom|left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/game_margin"
+        app:civ_border="false"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="@string/civ_shadow_radius"/>
+</android.support.design.widget.CoordinatorLayout>
+
