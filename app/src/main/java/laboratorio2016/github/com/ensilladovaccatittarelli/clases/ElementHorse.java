@@ -11,7 +11,7 @@ public class ElementHorse {
     private int order;
     private int sound;
 
-    public  ElementHorse(int image, int imageHorse, int order, int sound) {
+    public ElementHorse(int image, int imageHorse, int order, int sound) {
         this.image = image;
         this.imageHorse = imageHorse;
         this.order = order;
@@ -48,5 +48,21 @@ public class ElementHorse {
 
     public void setSound(int sound) {
         this.sound = sound;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ElementHorse that = (ElementHorse) o;
+
+        return order == that.order;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return order;
     }
 }
