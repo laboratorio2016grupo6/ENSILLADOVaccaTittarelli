@@ -2,6 +2,7 @@ package laboratorio2016.github.com.ensilladovaccatittarelli;
 
 import android.content.Intent;
 import android.media.AudioManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         Metrics metrics = new Metrics(getWindowManager());
         LayoutParams lparams = new LayoutParams(metrics);

@@ -23,8 +23,8 @@
             android:entryValues="@array/levelValues"
             />
 
-        <CheckBoxPreference
-            android:key="pref_state_horse"
+        <SwitchPreference
+            android:key="pref_key_state_horse_setting"
             android:title="@string/pref_initial_state_horse"
             android:summary="@string/pref_without_elements"
             android:defaultValue="true" />

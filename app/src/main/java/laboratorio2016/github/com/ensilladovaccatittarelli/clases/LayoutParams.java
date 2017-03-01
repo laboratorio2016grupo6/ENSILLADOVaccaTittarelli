@@ -35,8 +35,8 @@ public final class LayoutParams {
     }
 
     public CoordinatorLayout.LayoutParams getCedicaParams(){
-        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams((metrics.getWidth()/10),(metrics.getWidth()/10));
-        params.gravity = Gravity.BOTTOM | Gravity.CENTER;
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams((metrics.getWidth()/8),(metrics.getWidth()/8));
+        params.gravity = Gravity.TOP | Gravity.CENTER;
         int margin = metrics.dpToPixel(dimen_margin_main);
         params.bottomMargin = margin;
         return params;

@@ -1,5 +1,6 @@
 package laboratorio2016.github.com.ensilladovaccatittarelli;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +22,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -89,12 +90,6 @@ public class GameActivity extends AppCompatActivity {
         this.horseBack = (CoordinatorLayout) findViewById(R.id.background_horse);
         this.sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean sinElementos = sp.getBoolean("pref_without_elements", true);
-        if (!sinElementos) {
-            this.order = 3;
-            this.lastElement = 2;
-            horseBack.setBackgroundResource(R.drawable.caballo_bozalceleste_3);
-        }
         int lev = Integer.valueOf(sp.getString("pref_key_level_setting", "0"));
 
         this.level = Level.values()[lev-1];
@@ -109,12 +104,12 @@ public class GameActivity extends AppCompatActivity {
         this.elements = new ArrayList<ElementHorse>();
         this.lastElement=0;
         this.order=1;
-        boolean sinElementos = sp.getBoolean("pref_without_elements", true);
-        if (!sinElementos) {
-            this.order = 3;
-            this.lastElement = 2;
-            horseBack.setBackgroundResource(R.drawable.caballo_bozalceleste_3);
-        }
+//        boolean sinElementos = sp.getBoolean("pref_key_state_horse_setting", true);
+//        if (!sinElementos) {
+//            this.order = 3;
+//            this.lastElement = 2;
+//            horseBack.setBackgroundResource(R.drawable.caballo_bozalceleste_3);
+//        }
         CircularImageView imgtoplef = (CircularImageView) findViewById(R.id.imgtopleft);
         CircularImageView imgtopright = (CircularImageView) findViewById(R.id.imgtopright);
         CircularImageView imgcenterleft = (CircularImageView) findViewById(R.id.imgcenterleft);
@@ -171,96 +166,143 @@ public class GameActivity extends AppCompatActivity {
             Component c = new Component(this.imgpositions.get(i),elements.get(i+lastElement));
             this.components.add(c);
             c.getView().setImageResource(c.getElementHorse().getImage());
-            c.getView().setOnClickListener(new ImageViewListener(c));
+            c.getView().setOnClickListener(new ImageViewClickListener(c));
+            c.getView().setOnLongClickListener(new ImageViewListenerLong(c));
         }
         this.lastElement = lastElement + imgpositions.size()-1;
-        horseView.setOnClickListener(new HorseViewListener());
+        horseView.setOnClickListener(new HorseViewClickListener());
+        horseView.setOnDragListener(new HorseViewDragListener());
     }
 
-    public class ImageViewListener implements View.OnClickListener {
+    private class ImageViewListenerLong implements View.OnLongClickListener {
 
         private Component component;
-        public ImageViewListener(Component component) {
+
+        public ImageViewListenerLong(Component component) {
             this.component = component;
         }
+
         @Override
-        public void onClick(View view) {
-            if(selectedComponent==null) {
-                selectedComponent=this.component;
+        public boolean onLongClick(View view) {
+            if (selectedComponent == null) {
+                selectedComponent = this.component;
                 selectedComponent.getView().setShadowColor(Color.CYAN);
                 soundPlayer.play(selectedComponent.getElementHorse().getSound());
-            }else{
-                if (selectedComponent.equals(this.component)) {
-                    this.component.getView().setShadowColor(Color.GRAY);
-                    selectedComponent=null;
-                }else {
+            } else {
+                if (!selectedComponent.equals(this.component)) {
                     selectedComponent.getView().setShadowColor(Color.GRAY);
                     this.component.getView().setShadowColor(Color.CYAN);
                     soundPlayer.play(this.component.getElementHorse().getSound());
-                    selectedComponent=this.component;
+                    selectedComponent = this.component;
+                } else {
+                    soundPlayer.play(selectedComponent.getElementHorse().getSound());
+                }
+            }
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(this.component.getView());
+            this.component.getView().startDrag(data, shadowBuilder, this.component.getView(), 0);
+            return true;
+        }
+    }
+
+    private class ImageViewClickListener implements View.OnClickListener{
+
+        private Component component;
+
+        public ImageViewClickListener(Component component) {
+            this.component = component;
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (selectedComponent == null) {
+                selectedComponent = this.component;
+                selectedComponent.getView().setShadowColor(Color.CYAN);
+                soundPlayer.play(selectedComponent.getElementHorse().getSound());
+            } else {
+                if (selectedComponent.equals(this.component)) {
+                    this.component.getView().setShadowColor(Color.GRAY);
+                    selectedComponent = null;
+                } else {
+                    selectedComponent.getView().setShadowColor(Color.GRAY);
+                    this.component.getView().setShadowColor(Color.CYAN);
+                    soundPlayer.play(this.component.getElementHorse().getSound());
+                    selectedComponent = this.component;
                 }
             }
         }
     }
 
-    public class HorseViewListener implements View.OnClickListener {
+    public class HorseViewDragListener implements View.OnDragListener {
+        @Override
+        public boolean onDrag(View view, DragEvent event) {
+            switch (event.getAction()){
+                case DragEvent.ACTION_DROP:
+                    GameActivity.this.selectionHorse();
+                    break;
+            }
+            return true;
+        }
+    }
+
+    public class HorseViewClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            if (selectedComponent != null) {
-                if (selectedComponent.getElementHorse().getOrder() == order) {
-                    if (order==6) {
-                        horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
-                        soundPlayer.playWin1();
-                        for (CircularImageView civ : imgpositions)
-                            civ.setVisibility(View.INVISIBLE);
-                        winAlert();
-                    }else{
-                        //if ((7 - order) < level.getElements())
-                        //    selectedComponent.getView().setVisibility(View.INVISIBLE);
-                        if (order > elements.size() - level.getElements())
-                            selectedComponent.getView().setVisibility(View.INVISIBLE);
-                        if (lastElement<5) {
-                            //selectedComponent.getView().setVisibility(View.INVISIBLE);
-                            List<Component> componentsExcept = new ArrayList<Component>();
-                            componentsExcept.addAll(components);
-                            componentsExcept.remove(selectedComponent);
-                            Collections.shuffle(componentsExcept, new Random(System.nanoTime()));
-                            Component c;
-                            if (level.equals(Level.INICIAL))
-                                c=selectedComponent;
-                            else
-                                c = componentsExcept.get(0);
-                            ElementHorse ele = elements.get(lastElement+1);
-                            horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
-                            selectedComponent.setElementHorse(c.getElementHorse());
-                            selectedComponent.getView().setImageResource(c.getElementHorse().getImage());
-                            selectedComponent.getView().setOnClickListener(new ImageViewListener(new Component(selectedComponent.getView(),c.getElementHorse())));
-                            selectedComponent.getView().setShadowColor(Color.GRAY);
-
-                            c.setElementHorse(ele);
-                            //selectedComponent.getView().setVisibility(View.INVISIBLE);
-                            c.getView().setOnClickListener(new ImageViewListener(c));
-                            c.getView().setImageResource(ele.getImage());
-                            c.getView().setVisibility(View.VISIBLE);
-                            c.getView().setShadowColor(Color.GRAY);
-                            lastElement++;
-                        }else{
-                            horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
-                        }
-                        order++;
-                        soundPlayer.playRelincho();
-                        selectedComponent = null;
-                    }
-                }else{
-                    shake(selectedComponent.getView());
-                    soundPlayer.playResoplido();
-                    vibrate(400);
-                }
-
-            }else {
-                soundPlayer.playCaballo();
-            }
+            GameActivity.this.selectionHorse();
         }
     }
+
+    private void selectionHorse(){
+        if (selectedComponent != null) {
+            if (selectedComponent.getElementHorse().getOrder() == order) {
+                if (order==6) {
+                    horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
+                    soundPlayer.playWin1();
+                    for (CircularImageView civ : imgpositions)
+                        civ.setVisibility(View.INVISIBLE);
+                    winAlert();
+                }else{
+                    if (order > elements.size() - level.getElements())
+                        selectedComponent.getView().setVisibility(View.INVISIBLE);
+                    if (lastElement<5) {
+                        List<Component> componentsExcept = new ArrayList<Component>();
+                        componentsExcept.addAll(components);
+                        componentsExcept.remove(selectedComponent);
+                        Collections.shuffle(componentsExcept, new Random(System.nanoTime()));
+                        Component c;
+                        if (level.equals(Level.INICIAL))
+                            c=selectedComponent;
+                        else
+                            c = componentsExcept.get(0);
+                        ElementHorse ele = elements.get(lastElement+1);
+                        horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
+                        selectedComponent.setElementHorse(c.getElementHorse());
+                        selectedComponent.getView().setImageResource(c.getElementHorse().getImage());
+                        selectedComponent.getView().setOnClickListener(new ImageViewClickListener(new Component(selectedComponent.getView(),c.getElementHorse())));
+                        selectedComponent.getView().setShadowColor(Color.GRAY);
+                        c.setElementHorse(ele);
+                        c.getView().setOnClickListener(new ImageViewClickListener(c));
+                        c.getView().setImageResource(ele.getImage());
+                        c.getView().setVisibility(View.VISIBLE);
+                        c.getView().setShadowColor(Color.GRAY);
+                        lastElement++;
+                    }else{
+                        horseBack.setBackgroundResource(selectedComponent.getElementHorse().getImageHorse());
+                    }
+                    order++;
+                    soundPlayer.playRelincho();
+                    selectedComponent = null;
+                }
+            }else{
+                shake(selectedComponent.getView());
+                soundPlayer.playResoplido();
+                vibrate(400);
+            }
+
+        }else {
+            soundPlayer.playCaballo();
+        }
+    }
+
     private void toActivity(Class activity){
         GameActivity.this.finish();
         Intent intent = new Intent(this.getApplicationContext(), activity);
@@ -294,16 +336,20 @@ public class GameActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        builder.setPositiveButton(R.string.positiveButtonWinAlert, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if(level.getId() < 3) {
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("pref_key_level_setting", String.valueOf(level.getId() + 2));
-                    editor.commit();
+        if(this.level != Level.EXPERTO){
+            builder.setPositiveButton(R.string.positiveButtonWinAlert, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if(level.getId() < 3) {
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("pref_key_level_setting", String.valueOf(level.getId() + 2));
+                        editor.commit();
+                    }
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
                 }
-                toActivity(GameActivity.class);
-            }
-        });
+            });
+        }
         LayoutInflater factory = LayoutInflater.from(GameActivity.this);
         final View view = factory.inflate(R.layout.alert_win, null);
         AlertDialog dialog = builder.create();
