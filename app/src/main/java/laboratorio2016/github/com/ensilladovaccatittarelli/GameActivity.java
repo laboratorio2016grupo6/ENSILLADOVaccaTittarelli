@@ -43,10 +43,9 @@ import laboratorio2016.github.com.ensilladovaccatittarelli.interfaces.Voices;
 public class GameActivity extends AppCompatActivity {
 
     private List<CircularImageView> imgpositions = new ArrayList<CircularImageView>();
+
     private List<ElementHorse> elements = new ArrayList<ElementHorse>();
 
-    /*private CircularImageView selectedImage;
-    private ElementHorse selectedElement;*/
     private Component selectedComponent = null;
 
     private ImageView horseView;
@@ -104,12 +103,12 @@ public class GameActivity extends AppCompatActivity {
         this.elements = new ArrayList<ElementHorse>();
         this.lastElement=0;
         this.order=1;
-//        boolean sinElementos = sp.getBoolean("pref_key_state_horse_setting", true);
-//        if (!sinElementos) {
-//            this.order = 3;
-//            this.lastElement = 2;
-//            horseBack.setBackgroundResource(R.drawable.caballo_bozalceleste_3);
-//        }
+        boolean sinElementos = sp.getBoolean("pref_key_state_horse_setting", true);
+        if (!sinElementos) {
+            this.order = 3;
+            this.lastElement = 2;
+            horseBack.setBackgroundResource(R.drawable.caballo_bozalceleste_3);
+        }
         CircularImageView imgtoplef = (CircularImageView) findViewById(R.id.imgtopleft);
         CircularImageView imgtopright = (CircularImageView) findViewById(R.id.imgtopright);
         CircularImageView imgcenterleft = (CircularImageView) findViewById(R.id.imgcenterleft);
@@ -159,11 +158,12 @@ public class GameActivity extends AppCompatActivity {
         elements.add(new ElementHorse(R.drawable.matra,R.drawable.caballo_matra_5, 4, soundPlayer.getMatraSoundId()));
         elements.add(new ElementHorse(R.drawable.bajomontura,R.drawable.caballo_bajomontura_6, 5, soundPlayer.getBajoMonturaSoundId()));
         elements.add(new ElementHorse(R.drawable.montura,R.drawable.caballo_montura_7, 6, soundPlayer.getMonturaSoundId()));
-        //shuffle();
+
         this.components = new ArrayList<Component>();
         Collections.shuffle(imgpositions, new Random(System.nanoTime()));
-        for (int i=0; i<this.imgpositions.size()-this.lastElement; i++) {
-            Component c = new Component(this.imgpositions.get(i),elements.get(i+lastElement));
+        int cantidadImagenes = ((!sinElementos & (level == Level.EXPERTO))?this.imgpositions.size()-lastElement:this.imgpositions.size());
+        for (int i=0; i<cantidadImagenes; i++) {
+            Component c = new Component(this.imgpositions.get(i), elements.get(i + lastElement));
             this.components.add(c);
             c.getView().setImageResource(c.getElementHorse().getImage());
             c.getView().setOnClickListener(new ImageViewClickListener(c));
@@ -323,7 +323,6 @@ public class GameActivity extends AppCompatActivity {
 
     private void winAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
-        // Add the buttons
         builder.setNegativeButton(R.string.negativeButtonWinAlert, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 toActivity(MainActivity.class);
