@@ -161,7 +161,7 @@ public class GameActivity extends AppCompatActivity {
 
         this.components = new ArrayList<Component>();
         Collections.shuffle(imgpositions, new Random(System.nanoTime()));
-        int cantidadImagenes = ((!sinElementos & (level == Level.EXPERTO))?this.imgpositions.size()-lastElement:this.imgpositions.size());
+        int cantidadImagenes = ((!sinElementos && (level == Level.EXPERTO))?this.imgpositions.size()-lastElement:this.imgpositions.size());
         for (int i=0; i<cantidadImagenes; i++) {
             Component c = new Component(this.imgpositions.get(i), elements.get(i + lastElement));
             this.components.add(c);
@@ -265,7 +265,7 @@ public class GameActivity extends AppCompatActivity {
                         selectedComponent.getView().setVisibility(View.INVISIBLE);
                     if (lastElement<5) {
                         List<Component> componentsExcept = new ArrayList<Component>();
-                        componentsExcept.addAll(components);
+                        componentsExcept.addAll(this.components);
                         componentsExcept.remove(selectedComponent);
                         Collections.shuffle(componentsExcept, new Random(System.nanoTime()));
                         Component c;
@@ -357,7 +357,7 @@ public class GameActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
-    @Override
+/*    @Override
     protected void onResume() {
         super.onResume();
         init();
@@ -369,5 +369,5 @@ public class GameActivity extends AppCompatActivity {
         soundPlayer.liberar();
         elements.clear();
         imgpositions.clear();
-    }
+    }*/
 }
